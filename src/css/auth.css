@@ -1,0 +1,84 @@
+
+
+.auth-page {
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #031525;
+  color: '#fff'
+}
+
+
+
+.auth-page .left-area {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.auth-page .right-area {
+  overflow: hidden;
+  height: 100vh;
+  color: #fff;
+  text-decoration: none !important;
+}
+
+.auth-page .left-area img {
+
+  max-height: 100vh;
+  width: 100%;
+  -o-object-fit: fill;
+  object-fit: fill;
+  background-color: rgba(48, 48, 48, 0.8);
+  opacity: 0.9;
+  vertical-align: middle;
+  height: 100vh !important;
+}
+
+.auth-page .right-area {
+  margin: 0 !important;
+  padding: 0 !important;
+
+}
+
+.auth-page .right-area .login-content .brand-logo a {
+  text-align: center;
+}
+
+.auth-page .right-area .login-content .login-form h5 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-page .right-area .login-content .login-form button {
+  color: #fff !important;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 40px;
+}
+
+
+.btn-login-google {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.change_link a:hover {
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.info {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.brand-logo {
+  text-align: center;
+  justify-content: center;
+  justify-self: center;
+  margin-top: 150px;
+}
+.brand-logo img{
+  height: 40px;
+}
+
