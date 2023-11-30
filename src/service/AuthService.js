@@ -69,7 +69,7 @@ export class AuthService {
     }
 
     async googleLogin() {
-        loginWithGoogle()
+        await loginWithGoogle()
             .then((userCredential) => {
                 const user = userCredential.user;
                 const userData = {

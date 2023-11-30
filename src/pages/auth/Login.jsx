@@ -17,13 +17,13 @@ function Login() {
   const [data, setData] = useState({ email: '', password: '' })
 
   useEffect(() => {
-    if(  authenticated === 'true'){
+    if (authenticated === 'true') {
       return navigate('/')
     }
   }, [])
 
   const handleLogin = async () => {
-   
+
     if (data.email === '') { return toast.error('Please enter a valid email', { duration: 4000, position: 'top-right', }) }
     if (data.password === '') { return toast.error('Please enter a password', { duration: 4000, position: 'top-right', }) }
 
@@ -34,11 +34,11 @@ function Login() {
           const emailVerified = localStorage.getItem('emailVerified')
           console.log(emailVerified)
 
-          if(emailVerified === 'true'){
+          if (emailVerified === 'true') {
             localStorage.setItem('authenticated', true)
             toast.success('Login Success', { duration: 4000, position: 'top-right', })
             navigate('/admin')
-          }else{
+          } else {
             toast.error('Please verify your Email to continue', { duration: 4000, position: 'top-right', })
           }
         })
@@ -62,18 +62,18 @@ function Login() {
 
   const handleGoogleLogin = () => {
     authService.googleLogin()
-    .then(()=>{
-      navigate('/')
-    })
+      .then(() => {
+        navigate('/')
+      })
   }
 
   const handleChange = e => {
     const { name, value } = e.target;
     setData(prevState => ({
-        ...prevState,
-        [name]: value
+      ...prevState,
+      [name]: value
     }));
-};
+  };
 
 
   return (
