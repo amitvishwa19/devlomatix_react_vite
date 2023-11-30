@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, addDoc, updateDoc,getDoc } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import config from '../app/config'
@@ -17,7 +17,7 @@ export class FirebaseService {
             this.firebaseApp = initializeApp(config.firebaseConfig);
             this.firebaseAuth = getAuth(this.firebaseApp);
             this.firestore = getFirestore(this.firebaseApp);
-            this.firebaseMessaging = getMessaging(this.firebaseApp);
+            //this.firebaseMessaging = getMessaging(this.firebaseApp);
             console.log('Firebase service initialized')
         } catch (error) {
             console.log('Error initializing firebase::', error)
@@ -29,15 +29,21 @@ export class FirebaseService {
     }
 
     async onMessageListner(){
-        new Promise(resolve=>{
-            onMessage(this.firebaseMessaging, payload=>{
+        new Promise((resolve) => {
+            onMessage(this.firebaseMessaging, (payload)=>{
+                console.log('Message Listner', payload)
                 resolve(payload)
             })
         })
     }
 
-    async createUserWithEmailAndPassword  (email,password){
+    async createUserWithEmailAndPassword (email,password){
         return await createUserWithEmailAndPassword(this.firebaseAuth, email, password)
+        
+    }
+
+    async signInWithEmailAndPassword (email, password){
+        return signInWithEmailAndPassword(this.firebaseAuth, email, password)
     }
 
     async logUserDataToFirestore(user){ 

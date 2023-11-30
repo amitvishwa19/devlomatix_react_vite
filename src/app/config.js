@@ -15,7 +15,9 @@ const config={
         messagingSenderId: String(import.meta.env.VITE_MESSAGINSENDERID),
         appId: String(import.meta.env.VITE_APPID),
         measurementId: String(import.meta.env.VITE_MESUREMENTID),
-    }
+    },
+    firebaseVapidKey:String(import.meta.env.VITE_FIREBASE_VAPIDKEY)
+
 
 }
 export default config

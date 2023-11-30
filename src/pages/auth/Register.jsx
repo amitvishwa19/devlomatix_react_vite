@@ -1,68 +1,56 @@
-import React, { useState } from 'react'
-import googleImage from '../../assets/images/google.png'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../../redux/reducers/AuthReducer';
 import Spinner from 'react-bootstrap/Spinner';
-import firebaseService from '../../service/FirebaseService'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import authService from '../../service/AuthService';
 
 function Register() {
-
+  const authenticated = localStorage.getItem('authenticated')
   const dispach = useDispatch()
-
   const navigate = useNavigate()
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cpassword, setCPassword] = useState('');
   const [clickable, setClickable] = useState(true);
 
 
+  useEffect(() => {
+    if(  authenticated === 'true'){
+      return navigate('/')
+    }
+  }, [])
 
-
-  const loading = useSelector(data => data.auth.processing)
-  //console.log(loading)
 
   const handleRegister = () => {
     if (email === '') {
-      return toast.error('Please enter a valid email',{ duration: 4000, position: 'top-right', })
+      return toast.error('Please enter a valid email', { duration: 4000, position: 'top-right', })
     }
 
     if (password === '') {
-      return toast.error('Please enter a password',{ duration: 4000, position: 'top-right', })
+      return toast.error('Please enter a password', { duration: 4000, position: 'top-right', })
     }
 
     if (password !== cpassword) {
-      return toast.error('Password and Confirm Password not mached',{ duration: 4000, position: 'top-right', })
+      return toast.error('Password and Confirm Password not mached', { duration: 4000, position: 'top-right', })
     }
 
     if (clickable) {
       setClickable(false)
-      firebaseService.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          const userData = {
-            uid: user?.uid,
-            name: user?.displayName,
-            email: user?.email,
-            emailVerified: false,
-            avatar: user?.photoURL,
-            dnd: false,
-            loggedIn: false,
-            webDeviceToken: localStorage.getItem('webDeviceToken'),
-            mobileDeviceToken: null,
-            LoginType: 'email'
+      authService.register(email, password)
+        .then(() => {
+          toast.success('Registration success, An email verification link is sent to your registered email, please verify  to login to your account', { duration: 10000, position: 'top-right', })
+          navigate('/login')
+        })
+        .catch((err) => {
+          if (err.code === 'auth/email-already-in-use') {
+            toast.error('Email already used, please try to recover the password', { duration: 4000, position: 'top-right', })
           }
 
-          firebaseService.logUserDataToFirestore(userData)
-            .then(() => {
-              toast.success('Registration success, please login to your account to continue', { duration: 4000, position: 'top-right', })
-              navigate('/login', { msg: 'Registration success, Please login to continue' })
-            })
-        })
-        .catch((e) => {
-          toast.error('Email already used, please try to recover the password',{ duration: 4000, position: 'top-right', })
+          if (err.code === 'auth/invalid-email') {
+            toast.error('Invalid email , please try again', { duration: 4000, position: 'top-right', })
+          }
+
         })
         .finally(() => {
           setClickable(true)

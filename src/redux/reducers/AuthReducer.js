@@ -15,7 +15,9 @@ const initialState = {
         webDeviceToken: '',
         mobileDeviceToken: '',
         LoginType: ''
-    }
+    },
+    firebaseUser:{}
+
 }
 
 export const AuthReducer = createSlice({
